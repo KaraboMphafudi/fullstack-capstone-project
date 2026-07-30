@@ -17,7 +17,7 @@ function Navbar() {
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/app/main">Gifts</Link>
+                            <Link className="nav-link" to="/app">Gifts</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/app/login">Login</Link>

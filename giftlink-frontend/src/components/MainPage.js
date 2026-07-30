@@ -18,7 +18,7 @@ function MainPage() {
     useEffect(() => {
         const fetchGifts = async () => {
             try {
-                const response = await fetch('https://karaboekfm-5000.theiaopenshiftnext-0-labs-prod-theiaopenshift-4-tor01.proxy.cognitiveclass.ai/api/gifts');
+                const response = await fetch('https://karaboekfm-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/gifts');
                 const data = await response.json();
                 setGifts(data);
                 setLoading(false);
