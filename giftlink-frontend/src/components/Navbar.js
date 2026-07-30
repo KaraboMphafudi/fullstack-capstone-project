@@ -20,6 +20,9 @@ function Navbar() {
                             <Link className="nav-link" to="/app">Gifts</Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link" to="/app/search">Search</Link>
+                        </li>
+                        <li className="nav-item">
                             <Link className="nav-link" to="/app/login">Login</Link>
                         </li>
                         <li className="nav-item">

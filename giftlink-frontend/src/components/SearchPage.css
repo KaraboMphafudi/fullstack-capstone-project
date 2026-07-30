@@ -1,0 +1,444 @@
+/* src/components/SearchPage.css */
+
+/* ===== Overall Page Styling ===== */
+.search-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.search-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* ===== Search Form Styles ===== */
+.search-form-wrapper {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.search-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* ===== Task 1: Style the search input field ===== */
+.search-input {
+    width: 75%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #ffffff;
+    color: #495057;
+    margin-right: 1rem;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* ===== Task 2: Style the search button ===== */
+.search-button {
+    width: 20%;
+    padding: 0.75rem 1.5rem;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.search-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ===== Clear Button ===== */
+.clear-button {
+    padding: 0.75rem 2rem;
+    background-color: #6c757d;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clear-button:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* ===== Task 3: Customize dropdown filters ===== */
+.search-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #ffffff;
+    color: #495057;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23495057' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.search-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* ===== Search Actions Row ===== */
+.search-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ===== Error Message ===== */
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem 1.25rem;
+    margin-top: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 0.25rem;
+}
+
+/* ===== Task 6: Style the "No products found" alert message ===== */
+.no-results {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem 1.25rem;
+    margin-top: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 0.25rem;
+    text-align: center;
+}
+
+.no-results p {
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+}
+
+/* ===== Search Results ===== */
+.search-results {
+    margin-top: 2rem;
+}
+
+.results-count {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* ===== Task 5 & 7: Enhance search results cards with hover effect ===== */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.result-card {
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.result-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+/* ===== Task 8: Ensure images in search results are displayed appropriately ===== */
+.result-image {
+    width: 100%;
+    height: 200px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.result-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.placeholder-image {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* ===== Result Card Details ===== */
+.result-details {
+    padding: 1.25rem;
+}
+
+.result-title {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.result-category {
+    display: inline-block;
+    background-color: #28a745;
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.result-condition {
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.result-age {
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.result-description {
+    color: #495057;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* ===== Loading Spinner ===== */
+.loading-spinner {
+    text-align: center;
+    padding: 4rem 0;
+    color: #6c757d;
+    font-size: 1.2rem;
+}
+
+.loading-spinner .spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* ===== Task 9: Responsive Layout ===== */
+@media (max-width: 1024px) {
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-row {
+        flex-direction: column;
+    }
+    
+    .form-group {
+        min-width: 100%;
+        width: 100%;
+    }
+    
+    /* Task 1 & 2: Adjust input and button for mobile */
+    .search-input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .search-button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .clear-button {
+        width: 100%;
+    }
+    
+    .search-actions {
+        flex-direction: column;
+    }
+    
+    /* Task 3: Adjust dropdowns for mobile */
+    .search-select {
+        margin-bottom: 0.75rem;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .result-image {
+        height: 150px;
+    }
+    
+    .result-image img {
+        height: 150px;
+    }
+    
+    .result-title {
+        font-size: 1rem;
+    }
+    
+    .result-description {
+        font-size: 0.85rem;
+    }
+    
+    .search-title {
+        font-size: 2rem;
+    }
+    
+    .search-form-wrapper {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-page-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .search-title {
+        font-size: 1.75rem;
+    }
+    
+    .result-image {
+        height: 120px;
+    }
+    
+    .result-image img {
+        height: 120px;
+    }
+    
+    .result-details {
+        padding: 0.75rem;
+    }
+}
+
+/* ===== Task 10: Overall cohesive design ===== */
+/* Consistent color scheme applied throughout */
+/* - Primary: #007bff (blue) for buttons and interactive elements */
+/* - Success: #28a745 (green) for category badges */
+/* - Background: #f8f9fa (light gray) for page */
+/* - Cards: #ffffff (white) with subtle shadows */
+/* - Text: #2c3e50 (dark) for titles, #495057 for body */
+
+/* Interactive element styling */
+.search-input::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+/* Focus states for accessibility */
+.search-input:focus-visible,
+.search-select:focus-visible,
+.search-button:focus-visible,
+.clear-button:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Card content spacing */
+.result-details > * {
+    margin-bottom: 0.25rem;
+}
+
+.result-details > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Age range slider (Task 4) */
+.age-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #ced4da;
+    outline: none;
+}
+
+.age-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+}
+
+.age-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    border: none;
+}
+
+.age-slider-value {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-weight: 600;
+    color: #007bff;
+}
