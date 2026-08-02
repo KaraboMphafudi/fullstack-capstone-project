@@ -12,11 +12,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Import routes
 const giftRoutes = require('./routes/giftRoutes');
-const searchRoutes = require('./routes/searchRoutes');  // ✅ Task 1: Imported
+const searchRoutes = require('./routes/searchRoutes');
+const authRoutes = require('./routes/authRoutes');  // ✅ ADD THIS
 
 // Use routes
 app.use('/api/gifts', giftRoutes);
-app.use('/api/search', searchRoutes);  // ✅ Task 2: Used
+app.use('/api/search', searchRoutes);
+app.use('/api/auth', authRoutes);  // ✅ ADD THIS
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -47,6 +49,7 @@ const startServer = async () => {
       console.log(`📡 /api/gifts - Get all gifts`);
       console.log(`📡 /api/gifts/:id - Get gift by ID`);
       console.log(`📡 /api/search - Search gifts with filters`);
+      console.log(`📡 /api/auth/register - Register new user`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);

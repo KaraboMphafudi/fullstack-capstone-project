@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
-const dbName = 'giftdb';
 let dbInstance;
 
 module.exports = {
@@ -12,15 +12,21 @@ module.exports = {
         throw new Error('MONGODB_URI environment variable is not set');
       }
       
+      console.log('Connecting to MongoDB...');
+      
       const client = new MongoClient(uri, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        serverSelectionTimeoutMS: 10000,
+        authSource: 'admin'
       });
       
       await client.connect();
       console.log('✅ Connected to MongoDB successfully');
       
+      const dbName = process.env.DB_NAME || 'giftlink';
       dbInstance = client.db(dbName);
+      console.log(`✅ Using database: ${dbName}`);
       
       return dbInstance;
     } catch (error) {
