@@ -5,7 +5,7 @@ const PORT = 5000;
 
 // Enable CORS for all origins
 app.use(cors({
-  origin: '*', // Allow all origins for development
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -122,6 +122,61 @@ app.get('/api/gifts/:id', (req, res) => {
   }
 });
 
+// ============================================
+// ✅ REGISTRATION ENDPOINT
+// ============================================
+app.post('/api/auth/register', (req, res) => {
+  console.log('📝 Registration request received:', req.body);
+  const { firstName, lastName, email, password } = req.body;
+  
+  if (!firstName || !lastName || !email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'All fields are required: firstName, lastName, email, password'
+    });
+  }
+  
+  if (password.length < 6) {
+    return res.status(400).json({
+      success: false,
+      message: 'Password must be at least 6 characters'
+    });
+  }
+  
+  res.status(201).json({
+    success: true,
+    message: 'User registered successfully',
+    token: 'mock-jwt-token-12345',
+    user: {
+      id: 'mock-user-id-123',
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.toLowerCase().trim()
+    }
+  });
+});
+
+// ============================================
+// ✅ LOGIN ENDPOINT
+// ============================================
+app.post('/api/auth/login', (req, res) => {
+  console.log('📝 Login request received:', req.body);
+  const { email, password } = req.body;
+  
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'Email and password are required'
+    });
+  }
+  
+  res.json({
+    authtoken: 'mock-jwt-token-12345',
+    userName: 'John',
+    userEmail: email
+  });
+});
+
 // Handle OPTIONS requests for CORS preflight
 app.options('*', cors());
 
@@ -131,6 +186,8 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`📡 /api/health - Health check`);
   console.log(`📡 /api/search - Search gifts`);
   console.log(`📡 /api/gifts - Get all gifts`);
+  console.log(`📡 /api/auth/register - Register user`);
+  console.log(`📡 /api/auth/login - Login user`);
   console.log(`📦 ${gifts.length} sample gifts loaded`);
   console.log(`✅ CORS enabled for all origins`);
 });
