@@ -1,60 +1,135 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../context/AuthContext';
+import { urlConfig } from '../../config';
 import './LoginPage.css';
 
 function LoginPage() {
-    // Task: Create useState hook variables for email, password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [incorrect, setIncorrect] = useState('');
+    
+    const navigate = useNavigate();
+    const bearerToken = sessionStorage.getItem('bearer-token');
+    const { setIsLoggedIn } = useAppContext();
 
-    // Task: Create handleLogin function with console.log
-    const handleLogin = async () => {
-        console.log("Inside handleLogin");
-        console.log("Email:", email);
-        console.log("Password:", password);
+    // If user already logged in, redirect to MainPage
+    useEffect(() => {
+        if (sessionStorage.getItem('bearer-token')) {
+            navigate('/app');
+        }
+    }, [navigate]);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setIncorrect('');
+        setLoading(true);
+
+        // Validate inputs
+        if (!email || !password) {
+            setIncorrect('Email and password are required');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            // ✅ Using urlConfig from config.js
+            const response = await fetch(`/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken ? `Bearer ${bearerToken}` : '',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Store authentication token
+                if (data.authtoken) {
+                    sessionStorage.setItem('bearer-token', data.authtoken);
+                    setIsLoggedIn(true);
+                }
+                if (data.userName) {
+                    sessionStorage.setItem('username', data.userName);
+                }
+
+                // Navigate to MainPage on successful login
+                navigate('/app');
+            } else {
+                // Display error message from backend
+                setIncorrect(data.error || data.message || 'Login failed. Please try again.');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setIncorrect('Failed to connect to server. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6 col-lg-4">
-                    <div className="login-card p-4 border rounded">
-                        <h2 className="text-center mb-4 font-weight-bold">Login</h2>
-
-                        {/* Task: Create input element for email */}
-                        <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Email</label>
-                            <input
-                                id="email"
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter your email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-
-                        {/* Task: Create input element for password */}
-                        <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Password</label>
-                            <input
-                                id="password"
-                                type="password"
-                                className="form-control"
-                                placeholder="Enter your password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-
-                        {/* Task: Create Login button */}
-                        <button className="btn btn-primary w-100 mb-3" onClick={handleLogin}>
-                            Login
-                        </button>
-
-                        <p className="mt-4 text-center">
-                            New here? <a href="/app/register" className="text-primary">Register Here</a>
-                        </p>
+        <div className="login-container">
+            <div className="login-form-wrapper">
+                <h2>Login</h2>
+                
+                {/* Display error message */}
+                {incorrect && (
+                    <div className="alert alert-danger" role="alert">
+                        {incorrect}
                     </div>
+                )}
+
+                <form onSubmit={handleLogin}>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            id="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        className="btn btn-primary"
+                        disabled={loading}
+                    >
+                        {loading ? 'Logging in...' : 'Login'}
+                    </button>
+                </form>
+
+                <div className="mt-3 text-center">
+                    <p>
+                        Don't have an account?{' '}
+                        <a href="/app/register" className="text-primary">
+                            Register here
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

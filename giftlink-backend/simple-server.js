@@ -3,9 +3,9 @@ const cors = require('cors');
 const app = express();
 const PORT = 5000;
 
-// Enable CORS for all origins
+// ✅ Enable CORS for all origins
 app.use(cors({
-  origin: '*',
+  origin: '*', // Allow all origins for development
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

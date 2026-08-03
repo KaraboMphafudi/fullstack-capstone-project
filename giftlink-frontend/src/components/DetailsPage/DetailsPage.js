@@ -14,9 +14,9 @@ function DetailsPage() {
     ]);
     const [newComment, setNewComment] = useState('');
 
-    // Task 1: Check for authentication
-    const token = localStorage.getItem('token');
-    const isLoggedIn = true;
+    // ✅ FIXED: Check for authentication using sessionStorage
+    const token = sessionStorage.getItem('bearer-token');
+    const isLoggedIn = !!token; // true if token exists
 
     useEffect(() => {
         // Task 3: Scroll to top
@@ -24,14 +24,18 @@ function DetailsPage() {
 
         // Task 2: Fetch gift details
         const fetchGiftDetails = async () => {
-            // Redirect if not logged in (Task 1)
+            // Task 1: Redirect if not logged in
             if (!isLoggedIn) {
                 navigate('/app/login');
                 return;
             }
 
             try {
-                const response = await fetch(`https://karaboekfm-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/gifts/${productId}`);
+                const response = await fetch(`https://karaboekfm-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/gifts/${productId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}` // ✅ Token is now used!
+                    }
+                });
                 
                 if (!response.ok) {
                     throw new Error('Gift not found');
@@ -48,7 +52,7 @@ function DetailsPage() {
         };
 
         fetchGiftDetails();
-    }, [productId, isLoggedIn, navigate]);
+    }, [productId, isLoggedIn, navigate, token]); // ✅ Added token to dependencies
 
     // Format date function
     const formatDate = (timestamp) => {

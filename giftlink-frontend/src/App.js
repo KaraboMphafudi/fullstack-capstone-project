@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import MainPage from './components/MainPage';
 import Navbar from './components/Navbar';
 import RegisterPage from './components/RegisterPage/RegisterPage';
@@ -10,19 +11,21 @@ import './App.css';
 
 function App() {
     return (
-        <Router>
-            <div className="App">
-                <Navbar />
-                <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="/app" element={<MainPage />} />
-                    <Route path="/app/login" element={<LoginPage />} />
-                    <Route path="/app/register" element={<RegisterPage />} />
-                    <Route path="/app/product/:productId" element={<DetailsPage />} />
-                    <Route path="/app/search" element={<SearchPage />} />
-                </Routes>
-            </div>
-        </Router>
+        <AuthProvider>
+            <Router>
+                <div className="App">
+                    <Navbar />
+                    <Routes>
+                        <Route path="/" element={<MainPage />} />
+                        <Route path="/app" element={<MainPage />} />
+                        <Route path="/app/login" element={<LoginPage />} />
+                        <Route path="/app/register" element={<RegisterPage />} />
+                        <Route path="/app/product/:productId" element={<DetailsPage />} />
+                        <Route path="/app/search" element={<SearchPage />} />
+                    </Routes>
+                </div>
+            </Router>
+        </AuthProvider>
     );
 }
 
