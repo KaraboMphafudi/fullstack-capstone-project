@@ -180,6 +180,27 @@ app.post('/api/auth/login', (req, res) => {
 // Handle OPTIONS requests for CORS preflight
 app.options('*', cors());
 
+// ✅ UPDATE ENDPOINT
+app.put('/api/auth/update', (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
+    const userEmail = req.headers.email;
+    
+    if (!userEmail) {
+      return res.status(400).json({ error: "Email not found in the request headers" });
+    }
+    
+    res.json({
+      success: true,
+      message: 'User updated successfully',
+      authtoken: 'mock-jwt-token-updated',
+      user: {
+        firstName: firstName || 'John',
+        lastName: lastName || 'Doe',
+        email: userEmail
+      }
+    });
+  });
+
 // Start server on all interfaces
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Simple server running on http://0.0.0.0:${PORT}`);
