@@ -18,12 +18,12 @@ function MainPage() {
     useEffect(() => {
         const fetchGifts = async () => {
             try {
-                const response = await fetch('https://karaboekfm-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/gifts');
+                const response = await fetch('/api/gifts');
                 const data = await response.json();
                 setGifts(data);
                 setLoading(false);
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error fetching gifts:', error);
                 setLoading(false);
             }
         };

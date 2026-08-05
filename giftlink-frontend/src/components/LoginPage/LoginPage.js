@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AuthContext';
-import { urlConfig } from '../../config';
+//import { urlConfig } from '../../config';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -34,7 +34,7 @@ function LoginPage() {
         }
 
         try {
-            // ✅ Using urlConfig from config.js
+            // ✅ Using proxy URL
             const response = await fetch(`/api/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -50,14 +50,21 @@ function LoginPage() {
             const data = await response.json();
 
             if (response.ok) {
-                // Store authentication token
+                // ✅ Store authentication token and user details
                 if (data.authtoken) {
                     sessionStorage.setItem('bearer-token', data.authtoken);
                     setIsLoggedIn(true);
                 }
                 if (data.userName) {
                     sessionStorage.setItem('username', data.userName);
+                    sessionStorage.setItem('firstName', data.userName);
                 }
+                if (data.userEmail) {
+                    sessionStorage.setItem('userEmail', data.userEmail);
+                }
+
+                // ✅ Force storage event to trigger Navbar update
+                window.dispatchEvent(new Event('storage'));
 
                 // Navigate to MainPage on successful login
                 navigate('/app');

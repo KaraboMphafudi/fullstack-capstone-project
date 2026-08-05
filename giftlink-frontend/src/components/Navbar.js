@@ -7,22 +7,39 @@ function Navbar() {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        // Check login status from sessionStorage
-        const token = sessionStorage.getItem('bearer-token');
-        const name = sessionStorage.getItem('username');
+        const checkLoginStatus = () => {
+            const token = sessionStorage.getItem('bearer-token');
+            const name = sessionStorage.getItem('firstName') || sessionStorage.getItem('username');
+            
+            console.log('🔍 Navbar - Token:', token);
+            console.log('🔍 Navbar - Name:', name);
+            
+            if (token && name) {
+                console.log('✅ User is logged in!');
+                setIsLoggedIn(true);
+                setUsername(name);
+            } else {
+                console.log('❌ User is NOT logged in');
+                setIsLoggedIn(false);
+                setUsername('');
+            }
+        };
         
-        if (token && name) {
-            setIsLoggedIn(true);
-            setUsername(name);
-        } else {
-            setIsLoggedIn(false);
-            setUsername('');
-        }
+        checkLoginStatus();
+        
+        // Listen for storage changes
+        window.addEventListener('storage', checkLoginStatus);
+        
+        return () => {
+            window.removeEventListener('storage', checkLoginStatus);
+        };
     }, []);
 
     const handleLogout = () => {
         sessionStorage.removeItem('bearer-token');
         sessionStorage.removeItem('username');
+        sessionStorage.removeItem('firstName');
+        sessionStorage.removeItem('userEmail');
         setIsLoggedIn(false);
         setUsername('');
         navigate('/app');
@@ -48,9 +65,11 @@ function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/app/search">Search</Link>
                         </li>
-                        {/* ✅ Conditional rendering based on login status */}
                         {isLoggedIn ? (
                             <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/app/profile">Profile</Link>
+                                </li>
                                 <li className="nav-item">
                                     <span className="nav-link" style={{ color: '#fff' }}>
                                         Welcome, {username}
