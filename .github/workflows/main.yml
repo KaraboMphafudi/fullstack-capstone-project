@@ -1,6 +1,7 @@
 name: 'CI/CD'
 
 on:
+  workflow_dispatch:
   push:
     branches: [master, main]
   pull_request:
@@ -10,6 +11,7 @@ jobs:
   lint_js:
       name: Lint JavaScript Files
       runs-on: ubuntu-latest
+  workflow_dispatch:
 
       steps:
       - name: Checkout Repository
@@ -19,6 +21,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
+  workflow_dispatch:
 
       - name: Install JSHint
         run: npm install jshint --global
@@ -34,6 +37,7 @@ jobs:
   client_build:
       name: Build client
       runs-on: ubuntu-latest
+  workflow_dispatch:
 
       steps:
       - name: Checkout Repository
@@ -43,6 +47,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
+  workflow_dispatch:
 
       - name: Run build
         run: |
