@@ -1,0 +1,37 @@
+name: 'Test Workflow - Hello World'
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Print Hello World
+        run: |
+          echo "✅ GitHub Actions is working!"
+          echo "🎉 Workflow triggered successfully!"
+          echo "📝 Repository: ${{ github.repository }}"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "🕐 Time: $(date)"
+      
+      - name: List Repository Files
+        run: |
+          echo "📂 Files in the repository:"
+          ls -la
+      
+      - name: Check Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      
+      - name: Show Node.js Version
+        run: node --version
