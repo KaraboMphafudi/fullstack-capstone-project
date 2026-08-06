@@ -1,0 +1,18 @@
+{
+  "esversion": 8,
+  "node": true,
+  "globals": {
+    "process": true,
+    "require": true,
+    "module": true,
+    "__dirname": true,
+    "console": true,
+    "setTimeout": true,
+    "clearTimeout": true,
+    "setInterval": true,
+    "clearInterval": true,
+    "Promise": true,
+    "setImmediate": true,
+    "clearImmediate": true
+  }
+}
