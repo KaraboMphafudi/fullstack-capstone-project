@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AuthContext';
+// eslint-disable-next-line no-unused-vars
 import { urlConfig } from '../../config';
 import './ProfilePage.css';
 
