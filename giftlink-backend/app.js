@@ -1,26 +1,22 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { connectToDatabase } = require('./models/db');
+const { connectToDatabase } = require('./db');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Import routes
 const giftRoutes = require('./routes/giftRoutes');
 const searchRoutes = require('./routes/searchRoutes');
-const authRoutes = require('./routes/authRoutes');  // ✅ ADD THIS
+const authRoutes = require('./routes/authRoutes');
 
-// Use routes
 app.use('/api/gifts', giftRoutes);
 app.use('/api/search', searchRoutes);
-app.use('/api/auth', authRoutes);  // ✅ ADD THIS
+app.use('/api/auth', authRoutes);
 
-// Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
@@ -28,35 +24,18 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('Error:', err);
-  res.status(500).json({
-    success: false,
-    message: 'Internal server error',
-    error: err.message
-  });
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'GiftLink API' });
 });
 
-// Start the server
-const startServer = async () => {
-  try {
-    await connectToDatabase();
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log(`📍 http://localhost:${PORT}`);
-      console.log(`📡 /api/gifts - Get all gifts`);
-      console.log(`📡 /api/gifts/:id - Get gift by ID`);
-      console.log(`📡 /api/search - Search gifts with filters`);
-      console.log(`📡 /api/auth/register - Register new user`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
-  }
-};
-
-startServer();
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📡 /api/gifts - Get all gifts`);
+  console.log(`📡 /api/gifts/:id - Get gift by ID`);
+  console.log(`📡 /api/search - Search gifts with filters`);
+  console.log(`📡 /api/auth/register - Register new user`);
+  console.log(`📡 /api/auth/login - Login user`);
+});
 
 module.exports = app;
