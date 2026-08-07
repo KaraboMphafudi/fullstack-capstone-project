@@ -10,7 +10,7 @@ on:
 jobs:
   lint_js:
     name: Lint JavaScript Files
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
 
       - name: Run Linter
         run: |
-          find ./giftlink-backend -name "*.js" -exec jshint --config .jshintrc {} +
+          find ./giftlink-backend -path "*/node_modules/*" -prune -o -name "*.js" -print -exec jshint --config .jshintrc {} +
           echo "Linted all the js files successfully"
 
   client_build:
