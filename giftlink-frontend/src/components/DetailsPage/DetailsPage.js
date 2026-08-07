@@ -31,7 +31,7 @@ function DetailsPage() {
             }
 
             try {
-                const response = await fetch(`https://karaboekfm-5000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/gifts/${productId}`, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/gifts/${productId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}` // ✅ Token is now used!
                     }

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: giftapp-frontend
+  labels:
+    app: giftapp-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: giftapp-frontend
+  template:
+    metadata:
+      labels:
+        app: giftapp-frontend
+    spec:
+      containers:
+      - name: giftapp-frontend
+        image: us.icr.io/sn-labsassets/giftapp-frontend:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: giftapp-frontend-service
+spec:
+  selector:
+    app: giftapp-frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

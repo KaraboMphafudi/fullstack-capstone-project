@@ -18,7 +18,7 @@ function MainPage() {
     useEffect(() => {
         const fetchGifts = async () => {
             try {
-                const response = await fetch('/api/gifts');
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/gifts`);
                 const data = await response.json();
                 setGifts(data);
                 setLoading(false);

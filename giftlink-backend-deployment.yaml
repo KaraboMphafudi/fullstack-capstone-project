@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: giftapp
+  labels:
+    app: giftapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: giftapp
+  template:
+    metadata:
+      labels:
+        app: giftapp
+    spec:
+      containers:
+      - name: giftapp
+        image: us.icr.io/sn-labs-karaboekfm/giftapp:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://root:PoPmACj83gLeC2Hyl8ajv7hg@172.21.87.132:27017/giftlink?authSource=admin"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: giftapp-service
+spec:
+  selector:
+    app: giftapp
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: ClusterIP
